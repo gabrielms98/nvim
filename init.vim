@@ -24,6 +24,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'ap/vim-css-color'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'morhetz/gruvbox'
+" Plug'tyrannicaltoucan/vim-deep-space'
 Plug 'sbdchd/neoformat'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
@@ -41,18 +42,21 @@ Plug 'hrsh7th/nvim-compe'
 "Treesitter
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'romgrk/nvim-treesitter-context'
+
+" Bufferlines
+Plug 'kyazdani42/nvim-web-devicons' 
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 call plug#end()
 
 " Move to file when created
-:set autochdir
+set autochdir
 
-:set encoding=utf8
+set encoding=utf8
 
 " Seting color scheme
-:colorscheme gruvbox
-:syntax enable
-:set termguicolors
-" don't give |ins-completion-menu| messages.
+colorscheme gruvbox
+syntax enable
+set termguicolors
 set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
@@ -111,3 +115,7 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
+" Bufferline
+lua << EOF
+require("bufferline").setup{}
+EOF
