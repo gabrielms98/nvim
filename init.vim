@@ -24,7 +24,6 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'ap/vim-css-color'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'morhetz/gruvbox'
-" Plug'tyrannicaltoucan/vim-deep-space'
 Plug 'sbdchd/neoformat'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
@@ -58,6 +57,7 @@ colorscheme gruvbox
 syntax enable
 set termguicolors
 set shortmess+=c
+set background=dark
 " always show signcolumns
 set signcolumn=yes
 " Use tab for trigger completion with characters ahead and navigate.
@@ -77,13 +77,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " Prettier format on save 
 autocmd BufWritePre,TextChanged,InsertLeave *.js Neoformat
 
-" Start NERDTree and put the cursor back in the other window.
-autocmd VimEnter * NERDTree | wincmd p
-nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-b> :NERDTreeToggle<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
-:set splitright
+set splitright
 
 " ALE config
 let b:ale_fixers = {'javascript': ['eslint']}
@@ -116,6 +110,4 @@ nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " Bufferline
-lua << EOF
-require("bufferline").setup{}
-EOF
+lua require("bufferline").setup{}
