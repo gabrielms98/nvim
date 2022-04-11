@@ -58,6 +58,8 @@ syntax enable
 set termguicolors
 set shortmess+=c
 set background=dark
+let g:gruvbox_contrast_dark = 'hard'
+
 " always show signcolumns
 set signcolumn=yes
 " Use tab for trigger completion with characters ahead and navigate.
