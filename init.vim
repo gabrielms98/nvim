@@ -28,15 +28,17 @@ Plug 'sbdchd/neoformat'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 
-" Plug 'dense-analysis/ale'
+Plug 'dense-analysis/ale'
 Plug 'sbdchd/neoformat'
 Plug 'mhinz/vim-signify'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 
 " Lsp nvim
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
+Plug 'folke/trouble.nvim'
 
 "Treesitter
 Plug 'nvim-treesitter/nvim-treesitter'
@@ -45,6 +47,9 @@ Plug 'romgrk/nvim-treesitter-context'
 " Bufferlines
 Plug 'kyazdani42/nvim-web-devicons' 
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
+
+" Jinja highlighting
+Plug 'Glench/Vim-Jinja2-Syntax'
 call plug#end()
 
 " Move to file when created
@@ -55,26 +60,24 @@ set encoding=utf8
 " Seting color scheme
 colorscheme gruvbox
 syntax enable
-set termguicolors
 set shortmess+=c
 set background=dark
 let g:gruvbox_contrast_dark = 'hard'
 
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+if (has("nvim"))
+    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+
+if (has("termguicolors"))
+    set termguicolors
+endif
+
 " always show signcolumns
 set signcolumn=yes
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-\ pumvisible() ? "\<C-n>" :
-\ <SID>check_back_space() ? "\<TAB>" :
-\ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-function! s:check_back_space() abort
-let col = col('.') - 1
-return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
 
 " Prettier format on save 
 autocmd BufWritePre,TextChanged,InsertLeave *.js Neoformat
@@ -84,6 +87,7 @@ set splitright
 " ALE config
 let b:ale_fixers = {'javascript': ['eslint']}
 let b:ale_fixers = {'python': ['autopep8']}
+let g:neoformat_try_node_exe = 1
 
 " Vim airline
 let g:airline#extensions#branch#enable=1
@@ -100,16 +104,8 @@ let g:pymode_indent = 0
 :set updatetime=100
 
 " LSP config
-lua require'lspconfig'.pyright.setup{}
-lua require'lspconfig'.bashls.setup{}
-
-" Telescope 
-" Find files using Telescope command-line sugar.
-nnoremap ff <cmd>Telescope git_files<cr>
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+" lua require'lspconfig'.pyright.setup{}
+" lua require'lspconfig'.bashls.setup{}
 
 " Bufferline
 lua require("bufferline").setup{}
