@@ -8,11 +8,13 @@
 :set mouse=a
 :set ma
 :set expandtab
+:set clipboard=unnamedplus
+set winbar=%=m\ %f
 
 filetype indent on
 call plug#begin()
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'https://tpope.io/vim/fugitive.git'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Quramy/tsuquyomi'
@@ -28,7 +30,7 @@ Plug 'sbdchd/neoformat'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 Plug 'sbdchd/neoformat'
 Plug 'mhinz/vim-signify'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
@@ -39,14 +41,21 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 Plug 'folke/trouble.nvim'
+Plug 'tami5/lspsaga.nvim'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/nvim-cmp'
+" Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+
 
 "Treesitter
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'romgrk/nvim-treesitter-context'
+Plug 'nvim-treesitter/playground'
 
 " Bufferlines
 Plug 'kyazdani42/nvim-web-devicons' 
-Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
+" Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 
 " Jinja highlighting
 Plug 'Glench/Vim-Jinja2-Syntax'
@@ -80,17 +89,15 @@ endif
 set signcolumn=yes
 
 " Prettier format on save 
-autocmd BufWritePre,TextChanged,InsertLeave *.js Neoformat
+let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
+autocmd BufWritePre *.js Neoformat
 
 set splitright
 
-" ALE config
-let b:ale_fixers = {'javascript': ['eslint']}
-let b:ale_fixers = {'python': ['autopep8']}
 let g:neoformat_try_node_exe = 1
 
 " Vim airline
-let g:airline#extensions#branch#enable=1
+let g:airline_theme='gruvbox'                                                                                                       
 
 " Let nvim use python
 let g:python3_host_prog="/opt/homebrew/bin/python3"
@@ -108,4 +115,12 @@ let g:pymode_indent = 0
 " lua require'lspconfig'.bashls.setup{}
 
 " Bufferline
-lua require("bufferline").setup{}
+" lua require("bufferline").setup{}
+
+inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+augroup highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lus require'vim.highlight'.on_yank({timeout = 40})
+augroup END
