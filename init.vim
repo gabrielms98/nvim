@@ -9,11 +9,11 @@
 :set ma
 :set expandtab
 :set clipboard=unnamedplus
-set winbar=%=m\ %f
+" set winbar='%m\ %f'
 
 filetype indent on
 call plug#begin()
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
 " Plug 'vim-airline/vim-airline-themes'
 Plug 'https://tpope.io/vim/fugitive.git'
 Plug 'jiangmiao/auto-pairs'
@@ -45,6 +45,7 @@ Plug 'tami5/lspsaga.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 " Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 
 
@@ -97,7 +98,12 @@ set splitright
 let g:neoformat_try_node_exe = 1
 
 " Vim airline
-let g:airline_theme='gruvbox'                                                                                                       
+" let g:airline_theme='gruvbox'                                                                                      
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#left_sep = ''
+" let g:airline#extensions#tabline#left_alt_sep = ''
+" let g:airline#extensions#tabline#right_sep = ''
+" let g:airline#extensions#tabline#right_alt_sep = ''
 
 " Let nvim use python
 let g:python3_host_prog="/opt/homebrew/bin/python3"
@@ -124,3 +130,32 @@ augroup highlight_yank
     autocmd!
     autocmd TextYankPost * silent! lus require'vim.highlight'.on_yank({timeout = 40})
 augroup END
+
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+function! FileParentFolder()
+    let s:full_path = expand('%:p')
+    let splited = split(s:full_path, "/")
+    return len(splited) >= 2 ? join([splited[-2], splited[-1]], '/') : splited[-1]
+endfunction
+
+call FileParentFolder()
+
+set statusline=
+set statusline+=%{StatuslineGit()}
+set statusline+=\|
+set statusline+=\ %{FileParentFolder()}
+set statusline+=%m
+set statusline+=%=
+set statusline+=\ %y
+set statusline+=\ %l:%c
+set statusline+=/
+set statusline+=[%L]
+set statusline+=\      
