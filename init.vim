@@ -1,4 +1,4 @@
-:set number
+set number
 :set relativenumber
 :set autoindent
 :set tabstop=4
@@ -9,6 +9,7 @@
 :set ma
 :set expandtab
 :set clipboard=unnamedplus
+:set whichwrap=<,>,h,l
 " set winbar='%m\ %f'
 
 filetype indent on
@@ -27,7 +28,7 @@ Plug 'ap/vim-css-color'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'morhetz/gruvbox'
 Plug 'sbdchd/neoformat'
-Plug 'preservim/nerdtree'
+" Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 
 " Plug 'dense-analysis/ale'
@@ -46,10 +47,13 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-" Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+" Plug 'nvim-lua/lsp-status.nvim'
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 
+" Harpoooooon
+Plug 'ThePrimeagen/harpoon'
 
-"Treesitter
+" Treesitter
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'romgrk/nvim-treesitter-context'
 Plug 'nvim-treesitter/playground'
@@ -61,6 +65,8 @@ Plug 'kyazdani42/nvim-web-devicons'
 " Jinja highlighting
 Plug 'Glench/Vim-Jinja2-Syntax'
 call plug#end()
+
+let g:netrw_liststyle = 3
 
 " Move to file when created
 set autochdir
@@ -125,37 +131,32 @@ let g:pymode_indent = 0
 
 inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
 
 augroup highlight_yank
     autocmd!
     autocmd TextYankPost * silent! lus require'vim.highlight'.on_yank({timeout = 40})
 augroup END
 
-function! GitBranch()
-  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-endfunction
-
-function! StatuslineGit()
-  let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
-endfunction
-
 function! FileParentFolder()
     let s:full_path = expand('%:p')
     let splited = split(s:full_path, "/")
-    return len(splited) >= 2 ? join([splited[-2], splited[-1]], '/') : splited[-1]
+    if len(splited) == 0 
+      return ""
+    else 
+      return len(splited) >= 2 ? join([splited[-2], splited[-1]], '/') : splited[-1]
 endfunction
 
-call FileParentFolder()
 
 set statusline=
-set statusline+=%{StatuslineGit()}
-set statusline+=\|
-set statusline+=\ %{FileParentFolder()}
+" set statusline+=%{StatuslineGit()}
+set statusline+=%{fugitive#statusline()}
+set statusline+=\ \|
+set statusline+=\ \%{FileParentFolder()}
 set statusline+=%m
 set statusline+=%=
 set statusline+=\ %y
 set statusline+=\ %l:%c
-set statusline+=/
-set statusline+=[%L]
+set statusline+==>%L
 set statusline+=\      
