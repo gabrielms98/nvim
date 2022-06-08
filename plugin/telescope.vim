@@ -27,5 +27,6 @@ M.search_dotfiles = function()
 		hidden = true,
 	})
 end
+-- require("telescope").load_extension('harpoon')
 
 EOF

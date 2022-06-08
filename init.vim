@@ -1,4 +1,4 @@
-set number
+:set number
 :set relativenumber
 :set autoindent
 :set tabstop=4
@@ -11,13 +11,22 @@ set number
 :set clipboard=unnamedplus
 :set whichwrap=<,>,h,l
 " set winbar='%m\ %f'
+" " Nice menu when typing `:find *.py`
+set wildmode=longest,list,full
+set wildmenu
+" Ignore files
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=**/coverage/*
+set wildignore+=**/node_modules/*
+set wildignore+=**/android/*
+set wildignore+=**/ios/*
+set wildignore+=**/.git/*
 
 filetype indent on
 call plug#begin()
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
 Plug 'https://tpope.io/vim/fugitive.git'
-Plug 'jiangmiao/auto-pairs'
+"Plug 'jiangmiao/auto-pairs'
 Plug 'Quramy/tsuquyomi'
 
 " Telescope
@@ -28,10 +37,8 @@ Plug 'ap/vim-css-color'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'morhetz/gruvbox'
 Plug 'sbdchd/neoformat'
-" Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 
-" Plug 'dense-analysis/ale'
 Plug 'sbdchd/neoformat'
 Plug 'mhinz/vim-signify'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
@@ -40,18 +47,17 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --producti
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
+" Plug 'hrsh7th/nvim-compe'
 Plug 'folke/trouble.nvim'
-Plug 'tami5/lspsaga.nvim'
+" Plug 'tami5/lspsaga.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-" Plug 'nvim-lua/lsp-status.nvim'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+Plug 'onsails/lspkind.nvim'
 
 " Harpoooooon
-Plug 'ThePrimeagen/harpoon'
+Plug 'ThePrimeagen/harpoon', {'branch': 'master'}
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter'
@@ -60,7 +66,6 @@ Plug 'nvim-treesitter/playground'
 
 " Bufferlines
 Plug 'kyazdani42/nvim-web-devicons' 
-" Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 
 " Jinja highlighting
 Plug 'Glench/Vim-Jinja2-Syntax'
@@ -69,7 +74,7 @@ call plug#end()
 let g:netrw_liststyle = 3
 
 " Move to file when created
-set autochdir
+" set autochdir
 
 set encoding=utf8
 
@@ -129,9 +134,9 @@ let g:pymode_indent = 0
 " Bufferline
 " lua require("bufferline").setup{}
 
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-set completeopt=menuone,noinsert,noselect
+" inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 
 augroup highlight_yank

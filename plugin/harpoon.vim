@@ -1,6 +1,8 @@
 lua << END
 require"harpoon".setup {
-    mark_branch = true
+    global_settings = {
+        mark_branch = true
+    }
 }
 END
 nnoremap <silent><leader>a :lua require("harpoon.mark").add_file()<CR>
