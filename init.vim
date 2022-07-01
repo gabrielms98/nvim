@@ -1,15 +1,17 @@
-:set number
-:set relativenumber
-:set autoindent
-:set tabstop=4
-:set shiftwidth=4
-:set smarttab
-:set softtabstop=4
-:set mouse=a
-:set ma
-:set expandtab
-:set clipboard=unnamedplus
-:set whichwrap=<,>,h,l
+set number
+set relativenumber
+set autoindent
+set tabstop=2
+set shiftwidth=2
+set smarttab
+set softtabstop=4
+set mouse=a
+set ma
+set expandtab
+set clipboard=unnamedplus
+set whichwrap=<,>,h,l
+set nowrap
+set scrolloff=8
 " set winbar='%m\ %f'
 " " Nice menu when typing `:find *.py`
 set wildmode=longest,list,full
@@ -23,29 +25,34 @@ set wildignore+=**/android/*
 set wildignore+=**/ios/*
 set wildignore+=**/.git/*
 
+set cmdheight=1
+
 filetype indent on
 call plug#begin()
 Plug 'https://tpope.io/vim/fugitive.git'
-"Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 Plug 'Quramy/tsuquyomi'
 
 " Telescope
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim'
 
-Plug 'ap/vim-css-color'
+Plug 'ap/vim-css-color' 
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'morhetz/gruvbox'
 Plug 'sbdchd/neoformat'
 Plug 'ryanoasis/vim-devicons'
 
-Plug 'sbdchd/neoformat'
 Plug 'mhinz/vim-signify'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+Plug 'eslint/eslint'
 
 " Lsp nvim
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
+Plug 'williamboman/nvim-lsp-installer'
 Plug 'neovim/nvim-lspconfig'
 " Plug 'hrsh7th/nvim-compe'
 Plug 'folke/trouble.nvim'
@@ -69,9 +76,13 @@ Plug 'kyazdani42/nvim-web-devicons'
 
 " Jinja highlighting
 Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'mattn/emmet-vim'
+
+" rust
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
-let g:netrw_liststyle = 3
+" let g:netrw_liststyle = 3
 
 " Move to file when created
 " set autochdir
@@ -82,14 +93,8 @@ set encoding=utf8
 colorscheme gruvbox
 syntax enable
 set shortmess+=c
-set background=dark
-let g:gruvbox_contrast_dark = 'hard'
 
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
 if (has("nvim"))
-    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
 
@@ -108,14 +113,6 @@ set splitright
 
 let g:neoformat_try_node_exe = 1
 
-" Vim airline
-" let g:airline_theme='gruvbox'                                                                                      
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#left_sep = ''
-" let g:airline#extensions#tabline#left_alt_sep = ''
-" let g:airline#extensions#tabline#right_sep = ''
-" let g:airline#extensions#tabline#right_alt_sep = ''
-
 " Let nvim use python
 let g:python3_host_prog="/opt/homebrew/bin/python3"
 let g:pymode_indent = 0
@@ -125,18 +122,11 @@ let g:pymode_indent = 0
 
 
 " Vim-signify
-:set updatetime=100
+set updatetime=100
 
-" LSP config
-" lua require'lspconfig'.pyright.setup{}
-" lua require'lspconfig'.bashls.setup{}
-
-" Bufferline
-" lua require("bufferline").setup{}
 
 " inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 
 augroup highlight_yank
@@ -165,3 +155,7 @@ set statusline+=\ %y
 set statusline+=\ %l:%c
 set statusline+==>%L
 set statusline+=\      
+
+" Enabling emmet only for HTML/CSS files
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall

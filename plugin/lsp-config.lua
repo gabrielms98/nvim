@@ -27,12 +27,23 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
+local tabnine = require('cmp_tabnine.config')
+tabnine:setup({
+	max_lines = 1000;
+	max_num_results = 20;
+	sort = true;
+	run_on_every_keystroke = true;
+	snippet_placeholder = '..';
+	ignored_file_types = { -- default is not to ignore
+		-- uncomment to ignore in lua:
+		-- lua = true
+	};
+	show_prediction_strength = false;
+})
 
-
-  -- Setup nvim-cmp.
+-- Setup nvim-cmp.
 local cmp = require'cmp'
 local lspkind = require('lspkind')
-
 
 cmp.setup({
     snippet = {
@@ -45,7 +56,7 @@ cmp.setup({
       end,
     },
     window = {
-      -- completion = cmp.config.window.bordered(),
+      completion = cmp.config.window.bordered(),
       -- documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
@@ -58,9 +69,7 @@ cmp.setup({
     sources = cmp.config.sources({
           { name = 'nvim_lsp' },
           { name = 'vsnip' }, -- For vsnip users.
-          -- { name = 'luasnip' }, -- For luasnip users.
-          -- { name = 'ultisnips' }, -- For ultisnips users.
-          -- { name = 'snippy' }, -- For snippy users.
+          { name = 'cmp_tabnine' }, -- For vsnip users.
         }, {
           { name = 'buffer' },
         })
@@ -92,17 +101,19 @@ cmp.setup({
           { name = 'cmdline' }
     }),
 
-    formatting = {
-        format = lspkind.cmp_format({
-          mode = 'symbol', -- show only symbol annotations
-          maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+    cmp.setup {
+        formatting = {
+            format = lspkind.cmp_format({
+              mode = 'symbol', -- show only symbol annotations
+              maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
 
-          -- The function below will be called before any actual modifications from lspkind
-          -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-          before = function (entry, vim_item)
-            return vim_item
-          end
-        })
+              -- The function below will be called before any actual modifications from lspkind
+              -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+              before = function (entry, vim_item)
+                return vim_item
+              end
+            })
+        }
     }
 })
 
@@ -111,7 +122,9 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'tsserver' }
+require("nvim-lsp-installer").setup {}
+
+local servers = { 'pyright', 'tsserver', 'rust_analyzer' }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
