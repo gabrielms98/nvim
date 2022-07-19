@@ -29,13 +29,14 @@ cmp.setup({
     },
 
 	sources = {
-		{ name = "cmp_tabnine" },
+		-- { name = "cmp_tabnine" },
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
 		{ name = "buffer" },
 	},
 })
 
+--[[
 local tabnine = require("cmp_tabnine.config")
 tabnine:setup({
 	max_lines = 1000,
@@ -44,6 +45,7 @@ tabnine:setup({
 	run_on_every_keystroke = true,
 	snippet_placeholder = "..",
 })
+--]]
 
 local function config(_config)
 	return vim.tbl_deep_extend("force", {
@@ -51,13 +53,13 @@ local function config(_config)
 		on_attach = function()
 			nnoremap("gd", function() vim.lsp.buf.definition() end)
 			nnoremap("K", function() vim.lsp.buf.hover() end)
-			nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-			nnoremap("<leader>vd", function() vim.diagnostic.open_float() end)
+			nnoremap("<leader>gws", function() vim.lsp.buf.workspace_symbol() end)
+			nnoremap("<space>e", function() vim.diagnostic.open_float() end)
 			nnoremap("[d", function() vim.diagnostic.goto_next() end)
 			nnoremap("]d", function() vim.diagnostic.goto_prev() end)
-			nnoremap("<leader>vca", function() vim.lsp.buf.code_action() end)
-			nnoremap("<leader>vrr", function() vim.lsp.buf.references() end)
-			nnoremap("<leader>vrn", function() vim.lsp.buf.rename() end)
+			nnoremap("<leader>ca", function() vim.lsp.buf.code_action() end)
+			nnoremap("<leader>gr", function() vim.lsp.buf.references() end)
+			nnoremap("<leader>rn", function() vim.lsp.buf.rename() end)
 			inoremap("<C-h>", function() vim.lsp.buf.signature_help() end)
 		end,
 	}, _config or {})
@@ -69,7 +71,26 @@ require("lspconfig").tsserver.setup(config())
 
 require("lspconfig").ccls.setup(config())
 
-require("lspconfig").cssls.setup(config())
+require("lspconfig").cssls.setup(config({
+    settings = {
+        tailwindCSS = {
+            lint = {
+             cssConflict = "warning",
+             unknownAtRules = "ignore"
+            }
+        },
+        css = {
+            lint = {
+                unknownAtRules = "ignore"
+            }
+        },
+        scss = {
+            lint = {
+                unknownAtRules = "ignore"
+            }
+        }
+    }
+}))
 
 require("lspconfig").gopls.setup(config({
 	cmd = { "gopls", "serve" },
@@ -87,3 +108,7 @@ require("lspconfig").gopls.setup(config({
 require("lspconfig").rust_analyzer.setup(config({
 	cmd = { "rustup", "run", "nightly", "rust-analyzer" },
 }))
+
+require'lspconfig'.tailwindcss.setup(config())
+
+require'lspconfig'.cssmodules_ls.setup(config())

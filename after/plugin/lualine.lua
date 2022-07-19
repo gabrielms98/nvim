@@ -128,7 +128,7 @@ ins_left {
 
 ins_left { 'location' }
 
-ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
+ins_left { '%L', color = { fg = colors.fg, gui = 'bold' } }
 
 ins_left {
   'diagnostics',

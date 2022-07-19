@@ -84,15 +84,25 @@ _G.packer_plugins = {
     path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
-  ["cmp-tabnine"] = {
-    loaded = true,
-    path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/cmp-tabnine",
-    url = "https://github.com/tzachar/cmp-tabnine"
-  },
   cmp_luasnip = {
     loaded = true,
     path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
+  },
+  ["fern-hijack.vim"] = {
+    loaded = true,
+    path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/fern-hijack.vim",
+    url = "https://github.com/lambdalisue/fern-hijack.vim"
+  },
+  ["fern-renderer-nerdfont.vim"] = {
+    loaded = true,
+    path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/fern-renderer-nerdfont.vim",
+    url = "https://github.com/lambdalisue/fern-renderer-nerdfont.vim"
+  },
+  ["fern.vim"] = {
+    loaded = true,
+    path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/fern.vim",
+    url = "https://github.com/lambdalisue/fern.vim"
   },
   gruvbox = {
     loaded = true,
@@ -124,10 +134,20 @@ _G.packer_plugins = {
     path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
+  neoformat = {
+    loaded = true,
+    path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/neoformat",
+    url = "https://github.com/sbdchd/neoformat"
+  },
   neogit = {
     loaded = true,
     path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/neogit",
     url = "https://github.com/TimUntersberger/neogit"
+  },
+  ["nerdfont.vim"] = {
+    loaded = true,
+    path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/nerdfont.vim",
+    url = "https://github.com/lambdalisue/nerdfont.vim"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -183,6 +203,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
+  undotree = {
+    loaded = true,
+    path = "/Users/gabrielmartins/.local/share/nvim/site/pack/packer/start/undotree",
+    url = "https://github.com/mbbill/undotree"
   }
 }
 

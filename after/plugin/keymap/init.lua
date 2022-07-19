@@ -8,5 +8,5 @@ local nmap = Remap.nmap
 -- Yes, I do it like this
 inoremap("jj", "<Esc>")
 
-nmap("<C-b>", ":Explore<CR>")
 nmap("<leader>gs", ":Neogit<CR>")
+nmap("<leader>nft", ":Neoformat<CR>")

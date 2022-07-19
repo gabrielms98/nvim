@@ -21,7 +21,15 @@ require("telescope").setup({
 				["<C-q>"] = actions.send_to_qflist,
 			},
 		},
+        file_ignore_pattern = {
+            "database_scripts",
+            "testing"
+        }
 	},
+    file_ignore_pattern = {
+        "database_scripts",
+        "testing"
+    }
     --[[
 	extensions = {
 		fzy_native = {
