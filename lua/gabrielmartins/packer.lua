@@ -25,6 +25,7 @@ return require("packer").startup(function()
     use("saadparwaiz1/cmp_luasnip")
 
     -- Harpooooooon
+    use("ThePrimeagen/git-worktree.nvim")
     use("ThePrimeagen/harpoon")
 
     -- Colorscheme section

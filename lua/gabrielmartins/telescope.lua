@@ -27,8 +27,8 @@ require("telescope").setup({
         }
 	},
     file_ignore_pattern = {
-        "database_scripts",
-        "testing"
+        "/database_scripts",
+        "/testing"
     }
     --[[
 	extensions = {
@@ -40,7 +40,7 @@ require("telescope").setup({
     ]]
 })
 
--- require("telescope").load_extension("fzy_native")
+require("telescope").load_extension("git_worktree")
 
 local M = {}
 
