@@ -1,12 +1,12 @@
 vim.lsp.enable({
     "lua_ls",
     "angularls",
-    "tailwindcss",
     "pyright",
     "emmet_ls",
     "eslint",
     "html",
-    "css_variables"
+    "css_variables",
+    "csharp_ls"
 })
 
 vim.diagnostic.config({
@@ -307,8 +307,38 @@ local function safe_lsp_status()
     return ok and result or ""
 end
 
+local icons = require('config.icons')
+
+function diagnostic_status()
+    local ignore = {
+        ['c'] = true, -- command mode
+        ['t'] = true  -- terminal mode
+    }
+
+    local mode = vim.api.nvim_get_mode().mode
+    local label = ''
+
+    if ignore[mode] then
+        return label
+    end
+
+    local levels = vim.diagnostic.severity
+    local errors = #vim.diagnostic.get(0, {severity = levels.ERROR})
+    if errors > 0 then
+        label = label .. icons.diagnostics.Error .. ' ' .. errors .. ' '
+    end
+
+    local warnings = #vim.diagnostic.get(0, {severity = levels.WARN})
+    if warnings > 0 then
+        label = label .. icons.diagnostics.Warning .. ' ' .. warnings .. ' '
+    end
+
+    return label
+end
+
 _G.git_branch = safe_git_branch
 _G.lsp_status = safe_lsp_status
+_G.cmp_diagnostic_status = diagnostic_status
 
 -- THEN set the statusline
 vim.opt.statusline = table.concat({
@@ -317,6 +347,7 @@ vim.opt.statusline = table.concat({
     "%m",                    -- Modified flag
     "%r",                    -- Readonly flag
     "%=",                    -- Right align
+    "%{v:lua.cmp_diagnostic_status()}", -- Diagnostic status
     "%{v:lua.lsp_status()}", -- LSP status
     " %l:%c",                -- Line:Column
 }, " ")
