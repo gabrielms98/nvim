@@ -30,7 +30,14 @@ vim.lsp.config("vtsls", {
 })
 
 vim.lsp.config("angularls", {
-    cmd = { "ngserver", "--stdio", "--max-old-space-size=4096", "--tsProbeLocations", "../..,?/node_modules", "--ngProbeLocations", "../../@angular/language-server/node_modules,?/node_modules/@angular/language-server/node_modules", "--angularCoreVersion", "" },
+    cmd = {
+        "ngserver",
+        "--stdio",
+        "--max-old-space-size=4096",
+        "--tsProbeLocations", "../..,?/node_modules",
+        "--ngProbeLocations", "../../@angular/language-server/node_modules,?/node_modules/@angular/language-server/node_modules",
+        "--angularCoreVersion", "" 
+    },
     filetypes = { "html", "htmlangular" },
 })
 
@@ -41,7 +48,8 @@ vim.lsp.enable({
     "html",
     "css_variables",
     "csharp_ls",
-    "vtsls"
+    "vtsls",
+    "cssls"
     -- "ts_go_ls",
 })
 
@@ -70,6 +78,7 @@ vim.diagnostic.config({
 
 
 -- Extras
+local icons = require('config.icons')
 
 local function restart_lsp(bufnr)
     bufnr = bufnr or vim.api.nvim_get_current_buf()
@@ -372,14 +381,29 @@ function diagnostic_status()
     return label
 end
 
+function file_name()
+    local file = vim.fn.expand('%:t')
+    if file == '' then
+        return icons.ui.EmptyFolder .. " " .. vim.fn.expand('%:p:h:t')
+    end
+    return icons.ui.File .. " ".. file
+end
+
+function spacer()
+    return " " ..  icons.ui.LineMiddle .. " "
+end
+
 _G.git_branch = safe_git_branch
 _G.lsp_status = safe_lsp_status
 _G.cmp_diagnostic_status = diagnostic_status
+_G.file_name = file_name
+_G.spacer = spacer
 
 -- THEN set the statusline
 vim.opt.statusline = table.concat({
     "%{v:lua.git_branch()}", -- Git branch
-    "%f",                    -- File name
+    "%{v:lua.spacer()}",     -- Spacer
+    "%{v:lua.file_name()}",  -- File name
     "%m",                    -- Modified flag
     "%r",                    -- Readonly flag
     "%=",                    -- Right align
